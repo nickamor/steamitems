@@ -1,6 +1,6 @@
 section.assets
     h2 All Items
-    p Showing {{ assets.length }} of {{ assetsData.total_inventory_count }}
+    p Showing {{ (assets | filter: query).length }} of {{ assetsData.total_inventory_count }}
     form
         .form-group
             input(ng-model="query", placeholder="Filter", type="text").input-lg.form-control
@@ -28,9 +28,12 @@ section.assets
                             div.modal-dialog.modal-lg
                                 div.modal-body
                                     pre.input {{ asset | json }}
+                tr(ng-if='!(assets | filter: query).length')
+                    td(colspan='5')
+                        p No items to display
             tfoot
                 tr(ng-if='assetsData.more_items')
-                    td(colspan='5').center
+                    td(colspan='5')
                         a(href='#', ng-click='loadMore()').btn.btn-info Load more
                         a(href='#', ng-click='loadMore(true)').btn.btn-info Load all
 

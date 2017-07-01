@@ -1,0 +1,41 @@
+section.assets
+    h2 All Items
+    p Showing {{ assets.length }} of {{ assetsData.total_inventory_count }}
+    form
+        .form-group
+            input(ng-model="query", placeholder="Filter", type="text").input-lg.form-control
+
+    .table-responsive
+        table.table.table-striped
+            thead
+                tr
+                    th
+                    th Name
+                    th Type
+                    th Rarity
+                    th
+            tbody
+                tr(ng-repeat='(key, asset) in assets | filter: query as results track by asset.assetid')
+                    td
+                        a(href='http://steamcommunity.com/market/listings/753/{{ asset.description.market_hash_name }}')
+                            img(src='http://steamcommunity-a.akamaihd.net/economy/image/{{ asset.description.icon_url }}', alt='{{ asset.description.descriptions[0].value }}').asset-icon
+                    td {{ asset.description.market_name || asset.description.name }}
+                    td {{ asset.description.type }}
+                    td {{ asset.description.tags[0].localized_tag_name }}
+                    td
+                        a(href="#", data-toggle="modal", data-target="#modal-details-{{key}}").btn.btn-info All details
+                        div(id="modal-details-{{key}}", role="dialog").modal.fade
+                            div.modal-dialog.modal-lg
+                                div.modal-body
+                                    pre.input {{ asset | json }}
+            tfoot
+                tr(ng-if='assetsData.more_items')
+                    td(colspan='5').center
+                        a(href='#', ng-click='loadMore()').btn.btn-info Load more
+                        a(href='#', ng-click='loadMore(true)').btn.btn-info Load all
+
+    button(data-toggle="modal", data-target="#modal-debug").btn.btn-info Debug
+    div(role="dialog")#modal-debug.modal.fade
+        div.modal-dialog.modal-lg
+            div.modal-body
+                pre.input {{ assetsData | json }}

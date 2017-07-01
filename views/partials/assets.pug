@@ -15,12 +15,13 @@ section.assets
                     th Rarity
                     th
             tbody
-                tr(ng-repeat='(key, asset) in assets | filter: query as results track by asset.assetid')
+                tr(ng-repeat="(key, asset) in assets | filter: query as results track by asset.assetid")
                     td
-                        a(href='http://steamcommunity.com/id/romakin/inventory/#753_6_{{ asset.assetid }}')
-                            img(src='http://steamcommunity-a.akamaihd.net/economy/image/{{ asset.description.icon_url }}', alt='{{ asset.description.descriptions[0].value }}').asset-icon
+                        a(href="http://steamcommunity.com/id/romakin/inventory/#753_6_{{ asset.assetid }}")
+                            img(ng-src="http://steamcommunity-a.akamaihd.net/economy/image/{{ asset.description.icon_url }}", alt="{{ asset.description.descriptions[0].value }}", ng-if="asset.description.icon_url").asset-icon
+                        p(ng-if="!asset.description.icon_url") No icon
                     td
-                        a(href='http://steamcommunity.com/market/listings/753/{{ asset.description.market_hash_name }}') {{ asset.description.market_name || asset.description.name }}
+                        a(href="http://steamcommunity.com/market/listings/753/{{ asset.description.market_hash_name }}") {{ asset.description.market_name || asset.description.name }}
                     td {{ asset.description.type }}
                     td {{ asset.description.tags[0].localized_tag_name }}
                     td
@@ -29,14 +30,14 @@ section.assets
                             div.modal-dialog.modal-lg
                                 div.modal-body
                                     pre.input {{ asset | json }}
-                tr(ng-if='!(assets | filter: query).length')
-                    td(colspan='5')
+                tr(ng-if="!(assets | filter: query).length")
+                    td(colspan="5")
                         p No items to display
             tfoot
-                tr(ng-if='assetsData.more_items')
-                    td(colspan='5')
-                        a(href='#', ng-click='loadMore()').btn.btn-info Load more
-                        a(href='#', ng-click='loadMore(true)').btn.btn-info Load all
+                tr(ng-if="assetsData.more_items")
+                    td(colspan="5")
+                        a(href="#", ng-click="loadMore()").btn.btn-info Load more
+                        a(href="#", ng-click="loadMore(true)").btn.btn-info Load all
 
     button(data-toggle="modal", data-target="#modal-debug").btn.btn-info Debug
     div(role="dialog")#modal-debug.modal.fade

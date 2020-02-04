@@ -15,21 +15,21 @@ section.assets
                     th Rarity
                     th
             tbody
-                tr(ng-repeat="(key, asset) in assets | filter: query as results track by asset.assetid")
+                tr(ng-repeat="(key, item) in assets | filter: query as results track by item.asset.assetid")
                     td
-                        a(href="http://steamcommunity.com/id/romakin/inventory/#753_6_{{ asset.assetid }}")
-                            img(ng-src="http://steamcommunity-a.akamaihd.net/economy/image/{{ asset.description.icon_url }}", alt="{{ asset.description.descriptions[0].value }}", ng-if="asset.description.icon_url").asset-icon
-                        p(ng-if="!asset.description.icon_url") No icon
+                        a(href="http://steamcommunity.com/id/romakin/inventory/#753_6_{{ item.asset.assetid }}")
+                            img(ng-src="http://steamcommunity-a.akamaihd.net/economy/image/{{ item.description.icon_url }}", alt="{{ item.description.descriptions[0].value }}", ng-if="item.description.icon_url").asset-icon
+                        p(ng-if="!item.description.icon_url") No icon
                     td
-                        a(href="http://steamcommunity.com/market/listings/753/{{ asset.description.market_hash_name }}") {{ asset.description.market_name || asset.description.name }}
-                    td {{ asset.description.type }}
-                    td {{ asset.description.tags[0].localized_tag_name }}
+                        a(href="http://steamcommunity.com/market/listings/753/{{ item.description.market_hash_name }}") {{ item.description.market_name || item.description.name }}
+                    td {{ item.description.type }}
+                    td {{ item.description.tags[0].localized_tag_name }}
                     td
                         a(href="#", data-toggle="modal", data-target="#modal-details-{{key}}").btn.btn-info All details
                         div(id="modal-details-{{key}}", role="dialog").modal.fade
                             div.modal-dialog.modal-lg
-                                div.modal-body
-                                    pre.input {{ asset | json }}
+                                div.modal-content
+                                    pre.input {{ item | json }}
                 tr(ng-if="!(assets | filter: query).length")
                     td(colspan="5")
                         p No items to display
@@ -42,5 +42,5 @@ section.assets
     button(data-toggle="modal", data-target="#modal-debug").btn.btn-info Debug
     div(role="dialog")#modal-debug.modal.fade
         div.modal-dialog.modal-lg
-            div.modal-body
+            div.modal-content
                 pre.input {{ assetsData | json }}

@@ -1,12 +1,12 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+import express from 'express';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var partials = require('./routes/partials');
-var api = require('./routes/api');
+import index from './routes/index';
+import users from './routes/users';
+import partials from './routes/partials';
+import api from './routes/api';
 
 var app = express();
 
@@ -27,14 +27,14 @@ app.use('/partials', partials);
 app.use('/api', api);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  var err = new Error('Not Found');
+app.use(function (req, __, next) {
+  var err: Error | any = new Error(`Not Found: ${req.url}`);
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use((err: any, req, res: any) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -44,4 +44,4 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+export default app;
